@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CrisisMesh — Disaster Response Coordination App</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css" id="theme">
+<style>
+:root { --accent: #38bdf8; --bg: #0f172a; --bg2: #1e293b; }
+.reveal { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+.reveal .slides { text-align: left; }
+.reveal .slides section { background: var(--bg); }
+body { background: var(--bg); }
+.reveal h1, .reveal h2, .reveal h3 { color: var(--accent); text-transform: none; font-weight: 700; letter-spacing: -0.02em; }
+.reveal h1 { font-size: 2.6em; }
+.reveal h2 { font-size: 1.8em; margin-bottom: 0.6em; }
+.reveal h3 { font-size: 1.3em; }
+.reveal p, .reveal li { color: #e2e8f0; font-size: 0.72em; line-height: 1.6; }
+.reveal ul { list-style: none; padding-left: 0; }
+.reveal ul li { margin-bottom: 0.4em; padding-left: 0.2em; }
+.reveal ul li::before { content: none; }
+.reveal .accent { color: var(--accent); font-weight: 600; }
+.reveal .dim { color: #94a3b8; }
+.reveal code { background: var(--bg2); color: var(--accent); padding: 0.15em 0.4em; border-radius: 6px; font-size: 0.9em; }
+.title-slide { text-align: center !important; }
+.title-slide h1 { font-size: 3.4em !important; margin-bottom: 0.1em; background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.title-slide .subtitle { font-size: 1.2em; color: #94a3b8; margin-bottom: 1.5em; }
+.title-slide .meta { font-size: 0.65em; color: #64748b; }
+.title-slide .meta span { display: block; margin: 0.3em 0; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2em; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1em; }
+.card { background: var(--bg2); border-radius: 12px; padding: 0.8em 1em; border: 1px solid #334155; }
+.card h3 { margin: 0 0 0.4em 0; font-size: 0.75em; }
+.card ul { margin: 0; }
+.card li { font-size: 0.6em !important; margin-bottom: 0.2em !important; }
+.pipeline { background: var(--bg2); border-radius: 12px; padding: 1em 1.2em; margin-bottom: 0.8em; border-left: 4px solid var(--accent); }
+.pipeline h3 { margin: 0 0 0.5em 0; font-size: 0.8em; }
+.pipeline .flow { display: flex; align-items: center; flex-wrap: wrap; gap: 0.3em; font-size: 0.65em; color: #e2e8f0; }
+.pipeline .flow .arrow { color: var(--accent); font-weight: bold; font-size: 1.2em; }
+.pipeline .flow .step { background: #0f172a; padding: 0.3em 0.6em; border-radius: 6px; border: 1px solid #334155; white-space: nowrap; }
+.center-slide { text-align: center !important; display: flex !important; flex-direction: column; align-items: center; justify-content: center; }
+.center-slide h2 { font-size: 3em !important; }
+.center-slide p { font-size: 1.1em !important; color: #94a3b8; }
+.reveal img.arch-img { max-width: 85%; max-height: 55vh; border-radius: 12px; border: 2px solid #334155; margin: 0 auto; display: block; }
+.tag { display: inline-block; background: var(--bg2); color: var(--accent); padding: 0.2em 0.6em; border-radius: 20px; font-size: 0.55em; margin: 0.15em; border: 1px solid #334155; }
+.stat-row { display: flex; gap: 1em; margin-top: 0.8em; flex-wrap: wrap; }
+.stat { background: var(--bg2); border-radius: 12px; padding: 0.8em 1.2em; text-align: center; flex: 1; min-width: 140px; border: 1px solid #334155; }
+.stat .num { font-size: 1.8em; font-weight: 800; color: var(--accent); display: block; }
+.stat .label { font-size: 0.55em; color: #94a3b8; }
+.reveal table { margin: 0.5em auto; font-size: 0.6em; border-collapse: collapse; width: 90%; }
+.reveal table th { background: var(--accent); color: var(--bg); padding: 0.5em 0.8em; text-align: left; }
+.reveal table td { padding: 0.5em 0.8em; border-bottom: 1px solid #334155; color: #e2e8f0; }
+.reveal table tr:nth-child(even) td { background: rgba(30,41,59,0.5); }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- Slide 1: Title -->
+<section class="title-slide">
+  <h1>CrisisMesh</h1>
+  <div class="subtitle">Disaster Response Coordination App</div>
+  <p style="font-size:0.9em; color:#e2e8f0; margin-bottom:1.2em;">
+    🌐 Real-time • 🤖 AI-Powered • ☁️ Serverless on AWS
+  </p>
+  <div class="meta">
+    <span>📚 Cloud Computing (AWS) — November 2026</span>
+    <span>👤 Student Name &nbsp;|&nbsp; 🎓 Roll Number</span>
+  </div>
+</section>
+
+<!-- Slide 2: Problem Statement -->
+<section>
+  <h2>🚨 Problem Statement</h2>
+  <ul>
+    <li>🔀 <span class="accent">Fragmented coordination</span> — agencies, volunteers, and victims use disconnected channels</li>
+    <li>🗺️ <span class="accent">No centralized geospatial view</span> — incidents scattered across phone calls, texts, social media</li>
+    <li>📦 <span class="accent">Inefficient supply distribution</span> — donations pile up in one area, shortages in another</li>
+    <li>🏚️ <span class="accent">Slow damage assessment</span> — manual inspection takes days, delays relief priority</li>
+    <li>⏱️ <span class="accent">Time kills</span> — in the golden 72 hours, every minute of delay costs lives</li>
+  </ul>
+</section>
+
+<!-- Slide 3: Solution Overview -->
+<section>
+  <h2>💡 Solution Overview</h2>
+  <p style="margin-bottom:0.8em;">A <span class="accent">real-time, map-based platform</span> connecting 3 key stakeholders:</p>
+  <div class="grid-3">
+    <div class="card" style="border-top:3px solid #ef4444;">
+      <h3>🆘 Victims</h3>
+      <ul>
+        <li>Report incidents with photos & GPS</li>
+        <li>Request supplies & rescue</li>
+        <li>Track response status</li>
+      </ul>
+    </div>
+    <div class="card" style="border-top:3px solid #22c55e;">
+      <h3>🙋 Volunteers</h3>
+      <ul>
+        <li>Register skills & availability</li>
+        <li>Offer supply donations</li>
+        <li>Get matched to nearby needs</li>
+      </ul>
+    </div>
+    <div class="card" style="border-top:3px solid var(--accent);">
+      <h3>🎯 Coordinators</h3>
+      <ul>
+        <li>Command-center dashboard</li>
+        <li>Broadcast emergency alerts</li>
+        <li>AI-powered severity triage</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 4: System Architecture -->
+<section>
+  <h2>🏗️ System Architecture</h2>
+  <img src="architecture.png" alt="CrisisMesh Architecture Diagram" class="arch-img">
+  <p style="text-align:center; margin-top:0.6em; font-size:0.6em; color:#94a3b8;">
+    Frontend → API Layer → Compute → Data → AI → Messaging
+  </p>
+</section>
+
+<!-- Slide 5: AWS Services Used -->
+<section>
+  <h2>☁️ AWS Services Used <span class="dim" style="font-size:0.5em;">(13 services)</span></h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3>🔐 Auth & API</h3>
+      <ul>
+        <li><span class="accent">Amazon Cognito</span> — User auth & JWT tokens</li>
+        <li><span class="accent">AWS AppSync</span> — GraphQL API + real-time subscriptions</li>
+        <li><span class="accent">Amazon API Gateway</span> — REST endpoints</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>⚡ Compute</h3>
+      <ul>
+        <li><span class="accent">AWS Lambda</span> — 6 serverless functions</li>
+        <li><span class="accent">Amazon SQS</span> — Async supply matching queue</li>
+        <li><span class="accent">Amazon SNS</span> — Push notifications & alerts</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>💾 Data & Storage</h3>
+      <ul>
+        <li><span class="accent">Amazon DynamoDB</span> — Single-table NoSQL</li>
+        <li><span class="accent">Amazon S3</span> — Photo & asset storage</li>
+        <li><span class="accent">Amazon CloudWatch</span> — Logging & monitoring</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🤖 AI & Hosting & IaC</h3>
+      <ul>
+        <li><span class="accent">Amazon Rekognition</span> — Damage classification</li>
+        <li><span class="accent">Amazon CloudFront</span> — Global CDN</li>
+        <li><span class="accent">AWS IAM</span> — Fine-grained permissions</li>
+        <li><span class="accent">AWS CDK</span> — Infrastructure as Code</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 6: Tech Stack -->
+<section>
+  <h2>🛠️ Tech Stack</h2>
+  <table>
+    <tr><th>Layer</th><th>Technology</th><th>Details</th></tr>
+    <tr><td>Frontend</td><td><span class="accent">React 18 + TypeScript</span></td><td>Vite build, Leaflet.js maps</td></tr>
+    <tr><td>Backend</td><td><span class="accent">Node.js 20 + Lambda</span></td><td>6 serverless functions</td></tr>
+    <tr><td>Database</td><td><span class="accent">DynamoDB</span></td><td>Single-table design, 4 GSIs</td></tr>
+    <tr><td>Real-time</td><td><span class="accent">AppSync GraphQL</span></td><td>Subscriptions for live updates</td></tr>
+    <tr><td>AI / ML</td><td><span class="accent">Amazon Rekognition</span></td><td>Image label detection → severity</td></tr>
+    <tr><td>IaC</td><td><span class="accent">AWS CDK (TypeScript)</span></td><td>Single stack, 360 lines</td></tr>
+  </table>
+</section>
+
+<!-- Slide 7: Key Features -->
+<section>
+  <h2>✨ Key Features</h2>
+  <ul>
+    <li>🗺️ <span class="accent">Live interactive map</span> — severity-coded markers with real-time incident tracking</li>
+    <li>📸 <span class="accent">AI damage classification</span> — photo upload → Rekognition → auto-severity assignment</li>
+    <li>🔄 <span class="accent">Automated supply matching</span> — SQS pipeline matches requests to nearest volunteer offers</li>
+    <li>🚨 <span class="accent">Emergency alert broadcasting</span> — coordinators push alerts to all users via SNS</li>
+    <li>👥 <span class="accent">Role-based access control</span> — Victim, Volunteer, Coordinator with scoped permissions</li>
+    <li>⚡ <span class="accent">Real-time updates</span> — GraphQL subscriptions push changes instantly to all connected clients</li>
+  </ul>
+</section>
+
+<!-- Slide 8: Event-Driven Pipelines -->
+<section>
+  <h2>⚙️ Event-Driven Pipelines</h2>
+  <div class="pipeline">
+    <h3>📸 Pipeline 1: AI Damage Assessment</h3>
+    <div class="flow">
+      <span class="step">📸 Photo Upload</span>
+      <span class="arrow">→</span>
+      <span class="step">🪣 S3 Event</span>
+      <span class="arrow">→</span>
+      <span class="step">⚡ Lambda</span>
+      <span class="arrow">→</span>
+      <span class="step">🤖 Rekognition</span>
+      <span class="arrow">→</span>
+      <span class="step">💾 DynamoDB</span>
+    </div>
+    <p style="font-size:0.55em; color:#94a3b8; margin-top:0.4em;">Auto-classifies damage severity: Critical / High / Medium / Low</p>
+  </div>
+  <div class="pipeline">
+    <h3>📦 Pipeline 2: Supply Matching</h3>
+    <div class="flow">
+      <span class="step">📋 Supply Request</span>
+      <span class="arrow">→</span>
+      <span class="step">📬 SQS Queue</span>
+      <span class="arrow">→</span>
+      <span class="step">⚡ Lambda</span>
+      <span class="arrow">→</span>
+      <span class="step">🔍 Match Nearest</span>
+      <span class="arrow">→</span>
+      <span class="step">📢 SNS Notify</span>
+    </div>
+    <p style="font-size:0.55em; color:#94a3b8; margin-top:0.4em;">Async processing with dead-letter queue for reliability</p>
+  </div>
+</section>
+
+<!-- Slide 9: DynamoDB Data Model -->
+<section>
+  <h2>🗄️ DynamoDB Data Model</h2>
+  <p style="margin-bottom:0.5em;"><span class="accent">Single-table design</span> — all entities in one table, differentiated by key patterns</p>
+  <table>
+    <tr><th>Entity</th><th>PK</th><th>SK</th></tr>
+    <tr><td>User</td><td><code>USER#&lt;id&gt;</code></td><td><code>PROFILE</code></td></tr>
+    <tr><td>Incident</td><td><code>INCIDENT#&lt;id&gt;</code></td><td><code>DETAILS</code></td></tr>
+    <tr><td>Supply Offer</td><td><code>SUPPLY#&lt;id&gt;</code></td><td><code>OFFER</code></td></tr>
+    <tr><td>Supply Request</td><td><code>SUPPLY#&lt;id&gt;</code></td><td><code>REQUEST</code></td></tr>
+  </table>
+  <div style="margin-top:0.6em;">
+    <h3 style="font-size:0.7em;">4 Global Secondary Indexes</h3>
+    <div style="font-size:0.6em; color:#e2e8f0;">
+      <span class="tag">GSI1 — By Type + Status</span>
+      <span class="tag">GSI2 — By User + Timestamp</span>
+      <span class="tag">GSI3 — By Location + Severity</span>
+      <span class="tag">GSI4 — By Category + Status</span>
+    </div>
+    <p style="font-size:0.55em; color:#94a3b8; margin-top:0.5em;">
+      ✅ Why DynamoDB? Native AWS integration • Serverless & auto-scaling • Free tier: 25GB + 25 WCU/RCU • Single-digit ms latency
+    </p>
+  </div>
+</section>
+
+<!-- Slide 10: Deployment & IaC -->
+<section>
+  <h2>🚀 Deployment & Infrastructure as Code</h2>
+  <p style="margin-bottom:0.6em;">One CDK stack to rule them all:</p>
+  <div class="stat-row">
+    <div class="stat">
+      <span class="num">360</span>
+      <span class="label">Lines of CDK</span>
+    </div>
+    <div class="stat">
+      <span class="num">13</span>
+      <span class="label">AWS Services</span>
+    </div>
+    <div class="stat">
+      <span class="num">~1,600</span>
+      <span class="label">Total Lines of Code</span>
+    </div>
+    <div class="stat">
+      <span class="num">$0</span>
+      <span class="label">AWS Free Tier Cost</span>
+    </div>
+  </div>
+  <div style="margin-top:1em;">
+    <ul>
+      <li>🟢 Deploy: <code>npx cdk deploy</code> — provisions everything in ~5 minutes</li>
+      <li>🔴 Teardown: <code>npx cdk destroy</code> — clean removal, no orphaned resources</li>
+      <li>♻️ Reproducible — anyone can clone and deploy their own instance</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Slide 11: Live Demo -->
+<section class="center-slide">
+  <h2>🎬 Live Demo</h2>
+  <p>Let's see it in action</p>
+</section>
+
+<!-- Slide 12: Key Learnings & Conclusion -->
+<section>
+  <h2>🎓 Key Learnings & Conclusion</h2>
+  <div class="grid-2">
+    <div>
+      <h3 style="font-size:0.8em;">📖 What We Learned</h3>
+      <ul>
+        <li>⚡ <span class="accent">Serverless architecture</span> — Lambda + event-driven patterns</li>
+        <li>🗄️ <span class="accent">DynamoDB single-table design</span> — access pattern–driven modeling</li>
+        <li>🏗️ <span class="accent">Infrastructure as Code</span> — CDK for reproducible deployments</li>
+        <li>🔐 <span class="accent">IAM least-privilege</span> — scoped roles per Lambda function</li>
+        <li>💰 <span class="accent">Free Tier management</span> — building production apps at $0</li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="font-size:0.8em;">🏁 Conclusion</h3>
+      <div class="card" style="border-top:3px solid var(--accent);">
+        <ul>
+          <li>✅ Production-grade app with <span class="accent">zero server provisioning</span></li>
+          <li>✅ Fully serverless — scales to zero, scales to thousands</li>
+          <li>✅ AI-powered damage assessment in real time</li>
+          <li>✅ Complete IaC — deploy, destroy, repeat</li>
+          <li>✅ 13 AWS services working together seamlessly</li>
+        </ul>
+      </div>
+      <p style="text-align:center; margin-top:0.6em; font-size:0.8em;">
+        🙏 <span class="accent">Thank You!</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script>
+Reveal.initialize({
+  hash: true,
+  slideNumber: true,
+  transition: 'slide',
+  backgroundTransition: 'fade',
+  center: true,
+  width: 1280,
+  height: 720,
+  margin: 0.08
+});
+</script>
+</body>
+</html>

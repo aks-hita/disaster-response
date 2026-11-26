@@ -1,0 +1,12 @@
+node_modules/
+dist/
+cdk.out/
+*.js
+*.d.ts
+*.js.map
+!vite.config.ts
+!eslint.config.js
+.env
+deploy.zip
+package-lock.json
+docs/create_report.py
