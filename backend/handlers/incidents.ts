@@ -35,7 +35,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
         const { status, type } = event.queryStringParameters || {};
         if (status) {
           const result = await docClient.send(new QueryCommand({
-            TableName: TABLE_NAME, IndexName: 'GSI2',
+            TableName: TABLE_NAME, IndexName: 'gsi2',
             KeyConditionExpression: 'gsi2pk = :s', ExpressionAttributeValues: { ':s': status },
             ScanIndexForward: false,
           }));

@@ -47,7 +47,7 @@ async function handleApi(event: APIGatewayProxyEvent): Promise<APIGatewayProxyRe
 
     case 'GET /supplies/requests': {
       const result = await docClient.send(new QueryCommand({
-        TableName: TABLE_NAME, IndexName: 'GSI4',
+        TableName: TABLE_NAME, IndexName: 'gsi4',
         KeyConditionExpression: 'gsi4pk = :item AND gsi4sk = :s',
         ExpressionAttributeValues: {
           ':item': event.queryStringParameters?.item || 'water',

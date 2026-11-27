@@ -41,7 +41,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
         const { geohashPrefix } = event.queryStringParameters || {};
         if (geohashPrefix) {
           const result = await docClient.send(new QueryCommand({
-            TableName: TABLE_NAME, IndexName: 'GSI3',
+            TableName: TABLE_NAME, IndexName: 'gsi3',
             KeyConditionExpression: 'begins_with(gsi3pk, :g)',
             FilterExpression: 'isAvailable = :a',
             ExpressionAttributeValues: { ':g': geohashPrefix, ':a': true },

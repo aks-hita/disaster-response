@@ -26,10 +26,10 @@ export const createIncident = (data: Record<string, unknown>) =>
   api('/incidents', { method: 'POST', body: JSON.stringify(data) })
 
 export const getPhotoUploadUrl = (incidentId: string) =>
-  api(`/incidents/${incidentId}/upload-url`)
+  api(`/incidents/${incidentId}/photos`, { method: 'POST' })
 
 export const updateIncidentStatus = (id: string, status: string) =>
-  api(`/incidents/${id}/status`, { method: 'PATCH', body: JSON.stringify({ status }) })
+  api(`/incidents/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) })
 
 export const getVolunteers = (near?: { lat: number; lng: number }) => {
   const qs = near ? `?lat=${near.lat}&lng=${near.lng}` : ''

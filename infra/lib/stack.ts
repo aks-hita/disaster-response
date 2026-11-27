@@ -122,18 +122,22 @@ export class DisasterResponseStack extends cdk.Stack {
       });
 
     // ── Lambda Functions ──
-    const incidentsFn = makeFn('IncidentsFn', 'incidents', { TABLE_NAME: table.tableName });
+    const incidentsFn = makeFn('IncidentsFn', 'incidents', {
+      TABLE_NAME: table.tableName,
+      PHOTOS_BUCKET: photoBucket.bucketName,
+    });
     const volunteersFn = makeFn('VolunteersFn', 'volunteers', { TABLE_NAME: table.tableName });
     const supplyMatchingFn = makeFn('SupplyMatchingFn', 'supplyMatching', {
       TABLE_NAME: table.tableName,
-      SNS_TOPIC_ARN: alertTopic.topicArn,
+      MATCH_TOPIC_ARN: alertTopic.topicArn,
+      MATCH_QUEUE_URL: supplyQueue.queueUrl,
     });
     const imageAnalysisFn = makeFn('ImageAnalysisFn', 'imageAnalysis', {
       TABLE_NAME: table.tableName,
     });
     const alertsFn = makeFn('AlertsFn', 'alerts', {
       TABLE_NAME: table.tableName,
-      SNS_TOPIC_ARN: alertTopic.topicArn,
+      ALERTS_TOPIC_ARN: alertTopic.topicArn,
     });
     const authFn = makeFn('AuthFn', 'auth', {});
 
@@ -144,7 +148,9 @@ export class DisasterResponseStack extends cdk.Stack {
     table.grantReadWriteData(imageAnalysisFn);
     table.grantReadWriteData(alertsFn);
 
+    photoBucket.grantPut(incidentsFn);
     photoBucket.grantRead(imageAnalysisFn);
+    supplyQueue.grantSendMessages(supplyMatchingFn);
     alertTopic.grantPublish(supplyMatchingFn);
     alertTopic.grantPublish(alertsFn);
 

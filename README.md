@@ -181,7 +181,7 @@ aws s3 sync dist/ s3://<frontend-bucket-name> --delete
 
 ### 7. Open the app
 
-Navigate to the **Amplify Hosting URL** or **CloudFront distribution URL** printed in the CDK outputs.
+Navigate to your **AWS Amplify Hosting URL** (`https://...amplifyapp.com`) or the **S3 Static Website URL** (`FrontendUrl`) printed in the CDK outputs.
 
 ---
 

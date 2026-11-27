@@ -27,10 +27,10 @@ export default function IncidentForm({ lat, lng, onClose, onCreated }: Props) {
       const incident = await createIncident({ type, severity, description, lat, lng })
       if (photos.length > 0) {
         try {
-          const { uploadUrls } = await getPhotoUploadUrl(incident.id)
-          await Promise.all(photos.slice(0, 3).map((file, i) =>
-            fetch(uploadUrls[i], { method: 'PUT', body: file, headers: { 'Content-Type': file.type } })
-          ))
+          await Promise.all(photos.slice(0, 3).map(async (file) => {
+            const { uploadUrl } = await getPhotoUploadUrl(incident.id)
+            await fetch(uploadUrl, { method: 'PUT', body: file, headers: { 'Content-Type': 'image/jpeg' } })
+          }))
         } catch { /* photo upload is best-effort */ }
       }
       onCreated()
