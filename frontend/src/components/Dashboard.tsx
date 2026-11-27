@@ -47,11 +47,11 @@ export default function Dashboard({ user, onLogout }: { user: AppUser; onLogout:
         <div className="logo-section">
           <h2>🚨 CrisisMesh</h2>
           <span className="role-badge">{user.role.toUpperCase()}</span>
-          <span className="user-email">{user.email}</span>
         </div>
         <div className="topbar-actions">
           <button className="btn-primary" onClick={() => setShowForm(true)}>+ Report Incident</button>
           <button className="btn-secondary" onClick={onLogout}>Logout</button>
+          <div className="user-avatar">{(user.email?.[0] || 'U').toUpperCase()}</div>
         </div>
       </header>
 

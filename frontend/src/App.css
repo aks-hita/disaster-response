@@ -90,8 +90,20 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 .logo-section { display: flex; align-items: center; gap: 0.8rem; }
 .logo-section h2 { font-size: 1.2rem; color: #38bdf8; }
 .role-badge { background: #0284c7; color: #fff; font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 999px; font-weight: bold; }
-.user-email { font-size: 0.85rem; color: #94a3b8; }
-.topbar-actions { display: flex; gap: 0.6rem; }
+.topbar-actions { display: flex; align-items: center; gap: 0.6rem; }
+.user-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #0284c7;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #38bdf8;
+}
 
 .dashboard-body {
   display: flex;
