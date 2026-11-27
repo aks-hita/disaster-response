@@ -1,5 +1,5 @@
 import { useState, FormEvent } from 'react'
-import { signUp, signIn, confirmSignUp } from '@aws-amplify/auth'
+import { signUp, signIn, confirmSignUp, signOut } from '@aws-amplify/auth'
 import type { AppUser } from '../App'
 
 type Mode = 'login' | 'register' | 'confirm'
@@ -49,6 +49,7 @@ export default function Auth({ onLogin }: { onLogin: (u: AppUser) => void }) {
   }
 
   const doLogin = async () => {
+    await signOut().catch(() => {})
     const result = await signIn({ username: email, password })
     if (result.isSignedIn) {
       const savedRole = localStorage.getItem(`role_${email}`) || role || 'victim'

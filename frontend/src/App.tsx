@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Amplify } from 'aws-amplify'
+import { signOut } from '@aws-amplify/auth'
 import Auth from './components/Auth'
 import Dashboard from './components/Dashboard'
 
@@ -38,7 +39,7 @@ export default function App() {
   return (
     <Dashboard
       user={user}
-      onLogout={() => { setUser(null) }}
+      onLogout={async () => { await signOut().catch(() => {}); setUser(null) }}
     />
   )
 }
